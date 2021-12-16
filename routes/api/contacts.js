@@ -21,4 +21,4 @@ router.patch('/:contactId', async (req, res, next) => {
   res.json({ message: 'patch message' })
 })
 
-module.exports = router
+export default router

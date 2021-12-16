@@ -11,7 +11,7 @@ const addContact = async (body) => { }
 
 const updateContact = async (contactId, body) => { }
 
-module.exports = {
+export default {
   listContacts,
   getContactById,
   removeContact,
