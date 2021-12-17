@@ -1,20 +1,59 @@
-// const fs = require('fs/promises')
-// const contacts = require('./contacts.json')
 
-const listContacts = async () => { }
+import fs from 'fs/promises'
+import path, { dirname } from 'path'
+import { randomUUID } from 'crypto'
+import contacts from "./contacts.json"
+import { fileURLToPath } from 'url'
+import { ChildProcess } from 'child_process'
 
-const getContactById = async (contactId) => { }
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const removeContact = async (contactId) => { }
+const contactsPath = path.join(__dirname, 'contacts.json');
 
-const addContact = async (body) => { }
 
-const updateContact = async (contactId, body) => { }
+const listContacts = async () => {
+  return contacts
 
-export default {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
 }
+
+const getContactById = async (contactId) => {
+  const [result] = contacts.filter(contact => contact.id.toString() === contactId)
+  // console.log(typeof contactId);
+  console.log(result);
+  return result
+}
+
+
+
+
+const removeContact = async (contactId) => {
+  const index = contacts.findIndex(contact => contact.id !== contactId)
+  if (index !== -1) {
+    const [result] = contacts.splice(index, 1)
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
+    return result
+  }
+  return null
+}
+
+const addContact = async (name, email, phone) => {
+  const contacts = await readContent()
+  const newContact = { name, email, phone, id: randomUUID() }
+  contacts.push(newContact)
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
+  return newContact
+}
+
+const updateContact = async (contactId, body) => {
+  const index = contacts.findIndex(contact => contact.id !== contactId)
+  if (index !== -1) {
+    const patchedContact = { id: contactId, ...body }
+    contacts[index] = patchedContact
+    await fs.writeFile(path.join(__dirname, 'contacts.json'), JSON.stringify(contacts, null, 2))
+    return patchedContact
+  }
+  return null
+}
+
+
+export default { listContacts, getContactById, removeContact, addContact, updateContact }
