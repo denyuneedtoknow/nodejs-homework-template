@@ -23,11 +23,8 @@ const getContactById = async (contactId) => {
   return result
 }
 
-
-
-
 const removeContact = async (contactId) => {
-  const index = contacts.findIndex(contact => contact.id !== contactId)
+  const index = contacts.findIndex(contact => contact.id.toString() === contactId)
   if (index !== -1) {
     const [result] = contacts.splice(index, 1)
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
@@ -36,18 +33,17 @@ const removeContact = async (contactId) => {
   return null
 }
 
-const addContact = async (name, email, phone) => {
-  const contacts = await readContent()
-  const newContact = { name, email, phone, id: randomUUID() }
+const addContact = async ({ name, email, phone }) => {
+  const newContact = { id: randomUUID(), name, email, phone, }
   contacts.push(newContact)
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
   return newContact
 }
 
 const updateContact = async (contactId, body) => {
-  const index = contacts.findIndex(contact => contact.id !== contactId)
+  const index = contacts.findIndex(contact => contact.id.toString() === contactId)
   if (index !== -1) {
-    const patchedContact = { id: contactId, ...body }
+    const patchedContact = { id: contactId, ...contacts[index], ...body }
     contacts[index] = patchedContact
     await fs.writeFile(path.join(__dirname, 'contacts.json'), JSON.stringify(contacts, null, 2))
     return patchedContact
