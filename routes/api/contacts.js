@@ -6,6 +6,7 @@ const router = express.Router()
 router.get('/', async (req, res, next) => {
   const contacts = await model.listContacts()
   res.status(200).json({ contacts })
+
 })
 
 router.get('/:id', validateId, async (req, res, next) => {
@@ -27,7 +28,7 @@ router.delete('/:id', validateId, async (req, res, next) => {
   const contact = await model.removeContact(id)
   if (contact) {
     console.log(contact);
-    return res.status(200).json({ "message": `${contact.id} contact deleted` })
+    return res.status(200).json(contact)
   }
   res.status(404).json({ "message": "Not found" })
 })
@@ -35,10 +36,8 @@ router.delete('/:id', validateId, async (req, res, next) => {
 router.put('/:id', validateId, validateUpdate, async (req, res, next) => {
   const { id } = req.params
   const contact = await model.updateContact(id, req.body)
-  // console.log(req.body);
-  // console.log(id);
   if (contact) {
-    return res.status(200).json(contact)
+    return res.status(200).json(contact.value._id)
   }
   res.status(404).json({ "message": "Not found" })
 })
