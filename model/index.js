@@ -1,6 +1,6 @@
 
 import db from "./db"
-import { ObjectId } from "mongodb"
+import { ObjectId, ReturnDocument } from "mongodb"
 
 
 const getCollection = async (db, name) => {
@@ -43,7 +43,9 @@ const addContact = async (body) => {
 const updateContact = async (contactId, body) => {
     const id = ObjectId(contactId)
     const collection = await getCollection(db, 'contacts')
-    const result = await collection.findOneAndUpdate({ _id: id }, { $set: body })
+    const result = await collection.findOneAndUpdate({ _id: id },
+        { $set: body },
+        { returnDocument: 'after' })
     return result
 }
 
