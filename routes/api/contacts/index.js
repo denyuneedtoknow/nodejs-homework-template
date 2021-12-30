@@ -1,6 +1,6 @@
 import express from 'express'
-import model from "../../model/index"
-import { validateCreate, validateUpdate, validateId } from "../api/validation"
+import model from "../../../repository/contacts"
+import { validateCreate, validateUpdate, validateId } from "./validation"
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
