@@ -7,7 +7,5 @@ db.then(() => {
     console.log(`Server running. Use our API on port: ${PORT}`)
   })
 }).catch(err => {
-  console.log(`Server is not running. Error: ${err.message}`);
+  console.log(`Server is not running. Error: ${err.message}`)
 })
-
-
