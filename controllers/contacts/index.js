@@ -24,7 +24,6 @@ const removeContact = async (req, res, next) => {
   const { id } = req.params
   const contact = await repositoryContacts.removeContact(id)
   if (contact) {
-    console.log(contact)
     return res.status(httpCode.OK).json({ status: 'success', code: httpCode.OK, data: { contact } })
   }
   res.status(httpCode.NOT_FOUND).json({ status: 'error', code: httpCode.NOT_FOUND, message: 'Not found' })
