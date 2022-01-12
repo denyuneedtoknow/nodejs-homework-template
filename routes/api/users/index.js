@@ -1,5 +1,7 @@
 import { Router } from 'express'
-import { aggregation, } from '../../../controllers/users'
+import { aggregation, uploadAvatar } from '../../../controllers/users'
+
+
 import guard from '../../../middlewares/guard'
 import roleAccess from '../../../middlewares/role-access'
 import { Role } from '../../../lib/constants'

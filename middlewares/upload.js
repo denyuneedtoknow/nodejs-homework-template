@@ -1,14 +1,15 @@
 import multer from 'multer'
 const UPLOAD_DIR = process.env.UPLOAD_DIR
 
-const storage = multer.discStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, UPLOAD_DIR)
     },
     filename: function (req, file, cb) {
-        cb(null, `${date.now().toString()}_${file.originalname}`)
+        cb(null, `${Date.now().toString()}_${file.originalname}`)
     },
 })
+
 export const upload = multer({
     storage: storage,
     limits: { fileSize: 500000 },
