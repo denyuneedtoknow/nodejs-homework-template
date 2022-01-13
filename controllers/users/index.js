@@ -15,6 +15,7 @@ const aggregation = async (req, res, next) => {
 }
 const uploadAvatar = async (req, res, next) => {
     const uploadService = new UploadFileService(LocalFileStorage, req.file, req.user)
+    // const uploadService = new UploadFileService(CloudFileStorage, req.file, req.user)
     const avatarURL = await uploadService.updateAvatar()
     res
         .status(httpCode.OK)
