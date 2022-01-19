@@ -22,7 +22,11 @@ class SenderNodemailer {
                 pass: process.env.META_SECRET,
             }
         }
+        const transporter = nodemailer.createTransport(config)
+        return await transporter.sendMail({
+            ...msg, from: process.env.META_EMAIL
+        })
     }
-
+}
 
 export { SenderSendgrid, SenderNodemailer }

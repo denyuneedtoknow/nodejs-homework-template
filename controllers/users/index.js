@@ -1,3 +1,4 @@
+
 /* eslint-disable indent */
 import repositoryContacts from '../../repository/contacts'
 import { httpCode } from '../../lib/constants'
@@ -21,4 +22,5 @@ const uploadAvatar = async (req, res, next) => {
         .status(httpCode.OK)
         .json({ status: 'success', code: httpCode.OK, data: { avatarURL } })
 }
+
 export { aggregation, uploadAvatar }
