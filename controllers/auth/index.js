@@ -24,6 +24,7 @@ const registration = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body
   const user = await authService.getUser(email, password)
+  console.log(user);
   if (!user) {
     return res.status(httpCode.UNAUTHORIZED).json({
       status: 'error',
