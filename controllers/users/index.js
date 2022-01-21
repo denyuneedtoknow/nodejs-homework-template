@@ -26,10 +26,10 @@ const uploadAvatar = async (req, res, next) => {
 }
 const verifyUser = async (req, res, next) => {
     const verifyToken = req.params.token
-    const userFromToken = repositoryUsers.findByVerifyToken(verifyToken)
+    const userFromToken = await repositoryUsers.findByVerifyToken(verifyToken)
     if (userFromToken) {
         await repositoryUsers.updateVerify(userFromToken.id, true)
-        res
+        return res
             .status(httpCode.OK)
             .json({ status: 'success', code: httpCode.OK, data: { message: 'Success!' } })
     }
@@ -37,9 +37,12 @@ const verifyUser = async (req, res, next) => {
         .status(httpCode.BAD_REQUEST)
         .json({ status: 'success', code: httpCode.BAD_REQUEST, data: { message: 'Invalid token!' } })
 }
+
+
+
 const repeatEmailForVerifyUser = async (req, res, next) => {
     const { email } = req.body
-    const user = repositoryUsers.findByEmail(email)
+    const user = await repositoryUsers.findByEmail(email)
     if (user) {
         const { email, name, verifyTokenEmail } = user
         const emailService = new EmailService(process.env.NODE_ENV, new SenderNodemailer())
